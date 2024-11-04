@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "pcone-crawler"
+version = "0.1.0"
+description = ""
+authors = ["yang-lin94 <casongg@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+bs4 = "^0.0.2"
+requests = "^2.32.3"
+fake-useragent = "^1.5.1"
+selenium = "^4.26.1"
+webdriver-manager = "^4.0.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
