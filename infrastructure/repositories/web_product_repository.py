@@ -6,6 +6,7 @@ from typing import List
 from domain.entities.product import Product
 from application.interfaces.product_repository import ProductRepository
 
+
 class WebProductRepository(ProductRepository):
     BASE_URL = "https://www.pcone.com.tw/search"
 
@@ -20,7 +21,7 @@ class WebProductRepository(ProductRepository):
 
         # 連接到遠端 Selenium Server
         driver = webdriver.Remote(
-            command_executor='http://localhost:4444',
+            command_executor='http://selenium-chrome:4444',
             options=chrome_options
         )
         try:
@@ -34,12 +35,11 @@ class WebProductRepository(ProductRepository):
             # 解析產品資訊
             product_items = soup.find_all('div', class_='search-item')
 
-
-
             for item in product_items:
                 product = Product(
                     name=item.find('div', class_='product-name').text.strip(),
-                    star=item.find('span', class_='review-avg').text.strip() if item.find('span', class_='review-avg') else "0",
+                    star=item.find('span', class_='review-avg').text.strip(
+                    ) if item.find('span', class_='review-avg') else "0",
                     price=item.find('span', class_='price').text.strip()
                 )
                 products.append(product)
