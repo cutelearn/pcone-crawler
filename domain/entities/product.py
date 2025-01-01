@@ -12,3 +12,4 @@ class Product:
     price: float
     discount: float
     star: float
+    purchase_count: int

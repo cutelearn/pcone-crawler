@@ -21,7 +21,7 @@ def main():
 
         # 執行爬蟲並導出CSV
         print("正在連接到 WebDriver 服務...")
-        shops = search_shop_use_case.execute(keyword=keyword, page=1)
+        shops = search_shop_use_case.execute(keyword=keyword, page=8)
         print("已取得商店資料")
         print("正在取得商品資料...")
         products = search_products_use_case.execute(shops)

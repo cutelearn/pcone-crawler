@@ -57,6 +57,21 @@ class WebProductRepository(ProductRepository):
         name_element = soup.find('h1', class_='name')
         return name_element.text.strip() if name_element else ""
 
+    def _parse_purchase_count(self, soup: BeautifulSoup) -> int:
+        """解析購買人數"""
+        review_div = soup.find('div', class_='review-info')
+        if not review_div:
+            return 0
+
+        # 找到包含購買人數的 div
+        purchase_div = review_div.find_all('div')[1]  # 第二個 div 包含購買人數
+        if purchase_div:
+            # 提取數字部分
+            purchase_text = purchase_div.text.strip()
+            purchase_count = ''.join(filter(str.isdigit, purchase_text))
+            return int(purchase_count) if purchase_count else 0
+        return 0
+
     def search(self, shops: List[Shop]) -> List[Product]:
         products = []
         chrome_options = Options()
@@ -81,6 +96,7 @@ class WebProductRepository(ProductRepository):
                     soup)
                 discount, price = self._parse_price_info(soup)
                 star = self._parse_review_star(soup)
+                purchase_count = self._parse_purchase_count(soup)
 
                 product = Product(
                     name=product_name,
@@ -90,7 +106,8 @@ class WebProductRepository(ProductRepository):
                     shop_reply_rate=shop_reply_rate,
                     price=price,
                     discount=discount,
-                    star=star
+                    star=star,
+                    purchase_count=purchase_count
                 )
                 products.append(product)
 
